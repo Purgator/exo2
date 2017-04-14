@@ -45,10 +45,16 @@ namespace IntechCode.Tests
             PhPArray<string, string> pa = new PhPArray<string, string>();
             pa.Add( "key1", "value1" );
             string s = pa[ 0 ];
+
             s.Should().Be( "value1" );
+
             pa.RemoveAt( 0 );
-            string str = pa[ 0 ];
-            str.Should().Be( null );
+
+            Action a = () =>
+            {
+                string str = pa[ 0 ];
+            };
+            a.ShouldThrow<IndexOutOfRangeException>();
         }
 
         [Fact]
@@ -69,7 +75,12 @@ namespace IntechCode.Tests
             PhPArray<int, string> pa = new PhPArray<int, string>();
             pa.Add( 1, "one" );
             Action a = () => { string s = pa[ 6 ]; };
-            a.ShouldThrow<InvalidOperationException>();
+            a.ShouldThrow<IndexOutOfRangeException>();
         }
+
+
+
+
+
     }
 }

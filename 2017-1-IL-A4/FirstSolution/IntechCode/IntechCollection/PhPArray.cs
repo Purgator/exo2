@@ -221,6 +221,8 @@ namespace IntechCode.IntechCollection
         /// <returns></returns>
         MyNode<KeyValuePair<TKey, TValue>> AtNode ( int n )
         {
+            if ( n >= Count ) throw new IndexOutOfRangeException();
+
             var node = _myChainedList;
             for(var i = 0; i<n;i++ )
             {
@@ -257,8 +259,14 @@ namespace IntechCode.IntechCollection
         {
             var currentnode = AtNode( n );
 
-            currentnode.Prev.Next = currentnode.Next;
-            currentnode.Next.Prev = currentnode.Prev;
+            if(currentnode.Prev != null)
+            {
+                currentnode.Prev.Next = currentnode.Next;
+            }
+            if( currentnode.Next != null)
+            {
+                currentnode.Next.Prev = currentnode.Prev;
+            }
 
             _count--;
 
