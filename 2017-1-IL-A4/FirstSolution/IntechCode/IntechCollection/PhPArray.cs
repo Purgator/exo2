@@ -7,8 +7,15 @@ namespace IntechCode.IntechCollection
 {
     public class MyNode<T>
     {
-        public T Value;
+        public T Data;
         public MyNode<T> Next;
+        public MyNode<T> Prev;
+
+        public MyNode(T data, MyNode<T>prev)
+        {
+            Data = data;
+            Prev = prev;
+        }
     }
 
     class PhPArray<TKey,TValue> : IEnumerable<KeyValuePair<TKey,TValue>>
@@ -19,20 +26,36 @@ namespace IntechCode.IntechCollection
         {
             get
             {
-                throw new NotImplementedException();
+                TValue v;
+                if ( TryGetValue( key, out v ) ) return v;
+                else throw new KeyNotFoundException();
             }
-            set => throw new NotImplementedException();
+            set
+            {
+                MyNode<KeyValuePair<TKey,TValue >> n;
+                if(TryGetNode(key, out n))
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    Add( key, value );
+                }
+            }
         }
 
         public TValue this [int index]
         {
             get
             {
-                throw new NotImplementedException();
+                return At( index ).Value;
             }
-            set => throw new NotImplementedException();
+            set
+            {
+                var node = AtNode(index);
+                node.Data = new KeyValuePair<TKey, TValue>( node.Data.Key, value );
+            }
         }
-
 
         public PhPArray ()
         {
@@ -43,48 +66,140 @@ namespace IntechCode.IntechCollection
         }
 
         #region IEnumerableSupport
-        IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator ()
-        {
-            throw new NotImplementedException();
-        }
-
         IEnumerator IEnumerable.GetEnumerator ()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator ()
+        {
+            // vas-y bande Spi <3
+            var currentNode = _myChainedList;
+            do
+            {
+                yield return currentNode.Data;
+                currentNode = currentNode.Next;
+
+            } while ( currentNode != null );
+        }
+
+
         #endregion
 
+        /// <summary>
+        ///  OK
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public bool TryGetValue<TKey,TValue>(TKey key, out TValue value)
         {
+            MyNode < KeyValuePair<TKey, TValue> > node;
+            if (TryGetNode(key, out node))
+            {
+                value = node.Data.Value;
+                return true;
+            }
+            else
+            {
+                value = default(TValue);
+                return false;
+            }
+
+        }
+
+        public bool TryGetNode<TKey,TValue>(TKey key, out MyNode<KeyValuePair<TKey,TValue>> node)
+        {
             throw new NotImplementedException();
         }
 
-        KeyValuePair<TKey,TValue> At(int n)
+        bool TryGetLastNodeWithKeySecurity<TKey,TValue>( TKey key, out MyNode<KeyValuePair<TKey, TValue>> output)
+        {
+
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// OK
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        void Add(TKey key,TValue value)
+        {
+            MyNode < KeyValuePair<TKey, TValue> > lastNode;
+            if (TryGetLastNodeWithKeySecurity(key, out lastNode))
+            {
+                MyNode<KeyValuePair<TKey, TValue>> newNode = new MyNode<KeyValuePair<TKey, TValue>>(new KeyValuePair<TKey, TValue>(key,value), lastNode);
+                lastNode.Next = newNode;
+            }
+            else
+            {
+                throw new Exception( "Key already exists" );
+            }
+        }
+
+        /// <summary>
+        ///  OK
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public KeyValuePair<TKey,TValue> At(int n)
+        {
+            return AtNode( n ).Data;
+        }
+
+        public MyNode<KeyValuePair<TKey, TValue>> AtNode ( int n )
         {
 
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// OK
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
         TValue ValueAt ( int n )
         {
             return At( n ).Value;
         }
 
+        /// <summary>
+        /// OK
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
         TKey KeyAt ( int n )
         {
             return At( n ).Key;
         }
 
+        /// <summary>
+        /// OK
+        /// </summary>
+        /// <param name="n"></param>
         void RemoveAt(int n)
         {
+            var currentnode = AtNode( n );
+
+            currentnode.Prev.Next = currentnode.Next;
+            currentnode.Next.Prev = currentnode.Prev;
 
         }
 
+        /// <summary>
+        /// OK
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="v"></param>
         void SetValueAt(int n, TValue v)
         {
-            var kvp = At(n);
+            this [n] = v;
         }
 
-
+        
     }
 }
