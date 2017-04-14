@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Comment CommentText="Utility Classes: 3 events, 1 exception">
+    <Position X="0.75" Y="5" Height="0.263" Width="8.971" />
+  </Comment>
+  <Class Name="ITI.DocLib.Model.DocumentEventArgs">
+    <Position X="2.5" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Events\DocumentEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ITI.DocLib.Model.DocumentInstanceEventArgs">
+    <Position X="4.5" Y="5.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\DocumentInstanceEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ITI.DocLib.Model.UserEventArgs">
+    <Position X="0.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\UserEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ITI.DocLib.Model.DocLibException">
+    <Position X="7.5" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DocLibException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="ITI.DocLib.Model.IDocument">
+    <Position X="5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAEAAAAAgAACAAAAIAABgAAAIAAAAAAA=</HashCode>
+      <FileName>IDocument.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ITI.DocLib.Model.IDocumentInstance">
+    <Position X="8" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAgAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>IDocumentInstance.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ITI.DocLib.Model.IUser">
+    <Position X="6.75" Y="3.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAQAAAAAAAAAAAAAAAACAAQ=</HashCode>
+      <FileName>IUser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ITI.DocLib.Model.ILibrary">
+    <Position X="0.75" Y="0.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AgIACCCAAAAAAAAAAAAAAAAABAAIEAAAAAAAAABAAAA=</HashCode>
+      <FileName>ILibrary.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ITI.DocLib.Model.IUserCollection">
+    <Position X="5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAIAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>IUserCollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
