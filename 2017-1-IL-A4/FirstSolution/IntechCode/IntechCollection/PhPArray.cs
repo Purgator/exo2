@@ -108,8 +108,19 @@ namespace IntechCode.IntechCollection
 
         }
 
-        public bool TryGetNode<TKey,TValue>(TKey key, out MyNode<KeyValuePair<TKey,TValue>> node)
+        bool TryGetNode<TKey,TValue>(TKey key, out MyNode<KeyValuePair<TKey,TValue>> node)
         {
+            /*
+            foreach(MyNode<KeyValuePair<TKey, TValue>> n in this)
+            {
+                if(n.Key.Equals(key))
+                {
+                    node = n;
+
+                }
+            }
+            */
+
             throw new NotImplementedException();
         }
 
@@ -125,7 +136,7 @@ namespace IntechCode.IntechCollection
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        void Add(TKey key,TValue value)
+        public void Add(TKey key,TValue value)
         {
             MyNode < KeyValuePair<TKey, TValue> > lastNode;
             if (TryGetLastNodeWithKeySecurity(key, out lastNode))
@@ -149,7 +160,7 @@ namespace IntechCode.IntechCollection
             return AtNode( n ).Data;
         }
 
-        public MyNode<KeyValuePair<TKey, TValue>> AtNode ( int n )
+        MyNode<KeyValuePair<TKey, TValue>> AtNode ( int n )
         {
             var node = _myChainedList;
             for(var i = 0; i<n;i++ )
@@ -164,7 +175,7 @@ namespace IntechCode.IntechCollection
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
-        TValue ValueAt ( int n )
+        public TValue ValueAt ( int n )
         {
             return At( n ).Value;
         }
@@ -174,7 +185,7 @@ namespace IntechCode.IntechCollection
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
-        TKey KeyAt ( int n )
+        public TKey KeyAt ( int n )
         {
             return At( n ).Key;
         }
@@ -183,7 +194,7 @@ namespace IntechCode.IntechCollection
         /// OK
         /// </summary>
         /// <param name="n"></param>
-        void RemoveAt(int n)
+        public void RemoveAt(int n)
         {
             var currentnode = AtNode( n );
 
@@ -197,7 +208,7 @@ namespace IntechCode.IntechCollection
         /// </summary>
         /// <param name="n"></param>
         /// <param name="v"></param>
-        void SetValueAt(int n, TValue v)
+        public void SetValueAt(int n, TValue v)
         {
             this [n] = v;
         }
