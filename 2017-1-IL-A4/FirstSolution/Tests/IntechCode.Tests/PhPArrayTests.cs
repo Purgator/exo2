@@ -30,6 +30,57 @@ namespace IntechCode.Tests
 
         [Fact]
         [Test]
+        public void add_5_elements()
+        {
+            var tab = new PhPArray<string,string>();
+
+            tab.Add( "1", "couille" );
+            tab ["1"].Should().Equals("couille1");
+            tab [0].Should().Equals( "couille1" );
+
+            tab.Add( "2", "couille" );
+            tab ["2"].Should().Equals( "couille2" );
+            tab [1].Should().Equals( "couille2" );
+
+            tab.Add( "3", "couille" );
+            tab ["3"].Should().Equals( "couille3" );
+            tab [2].Should().Equals( "couille3" );
+
+            tab.Add( "4", "couille" );
+            tab ["4"].Should().Equals( "couille4" );
+            tab [3].Should().Equals( "couille4" );
+
+            tab.Add( "5", "couille" );
+            tab ["5"].Should().Equals( "couille5" );
+            tab [4].Should().Equals( "couille5" );
+
+        }
+
+
+        [Fact]
+        [Test]
+        public void test_iteration_iterates()
+        {
+            var tab = new PhPArray<string,string>();
+            tab.Add( "couille", "couille" );
+            tab.Add( "couille2", "couille2" );
+            tab.Add( "couille3", "couill3" );
+            tab.Add( "couill43", "couill3" );
+            tab.Add( "couille323", "couill3" );
+
+            var i=0;
+            foreach(var t in tab)
+            {
+                tab [i].Should().Equals( t );
+                i++;
+            }
+
+
+        }
+
+
+        [Fact]
+        [Test]
         public void get_element_by_its_key()
         {
             PhPArray<int, string> pa = new PhPArray<int, string>();
@@ -45,10 +96,16 @@ namespace IntechCode.Tests
             PhPArray<string, string> pa = new PhPArray<string, string>();
             pa.Add( "key1", "value1" );
             string s = pa[ 0 ];
+
             s.Should().Be( "value1" );
+
             pa.RemoveAt( 0 );
-            string str = pa[ 0 ];
-            str.Should().Be( null );
+
+            Action a = () =>
+            {
+                string str = pa[ 0 ];
+            };
+            a.ShouldThrow<IndexOutOfRangeException>();
         }
 
         [Fact]
@@ -69,7 +126,12 @@ namespace IntechCode.Tests
             PhPArray<int, string> pa = new PhPArray<int, string>();
             pa.Add( 1, "one" );
             Action a = () => { string s = pa[ 6 ]; };
-            a.ShouldThrow<InvalidOperationException>();
+            a.ShouldThrow<IndexOutOfRangeException>();
         }
+
+
+
+
+
     }
 }

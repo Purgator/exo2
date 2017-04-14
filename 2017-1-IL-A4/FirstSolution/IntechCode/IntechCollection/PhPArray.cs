@@ -162,7 +162,7 @@ namespace IntechCode.IntechCollection
                 return true;
             }
 
-            while(node != null)
+            while(node != null && node.Next!= null)
             {
                 if(CanMoveNext != null && !CanMoveNext(node))
                 {
@@ -184,7 +184,7 @@ namespace IntechCode.IntechCollection
         public void Add(TKey key,TValue value)
         {
             MyNode < KeyValuePair<TKey, TValue> > lastNode;
-            if (TryGetLastNode(out lastNode, (n) => { return n.Data.Key.Equals(key); } ))
+            if (TryGetLastNode(out lastNode, (n) => { return !n.Data.Key.Equals(key); } ))
             {
                 MyNode<KeyValuePair<TKey, TValue>> newNode = new MyNode<KeyValuePair<TKey, TValue>>(new KeyValuePair<TKey, TValue>(key,value), lastNode);
 
@@ -221,6 +221,8 @@ namespace IntechCode.IntechCollection
         /// <returns></returns>
         MyNode<KeyValuePair<TKey, TValue>> AtNode ( int n )
         {
+            if ( n >= Count ) throw new IndexOutOfRangeException();
+
             var node = _myChainedList;
             for(var i = 0; i<n;i++ )
             {
@@ -257,8 +259,14 @@ namespace IntechCode.IntechCollection
         {
             var currentnode = AtNode( n );
 
-            currentnode.Prev.Next = currentnode.Next;
-            currentnode.Next.Prev = currentnode.Prev;
+            if(currentnode.Prev != null)
+            {
+                currentnode.Prev.Next = currentnode.Next;
+            }
+            if( currentnode.Next != null)
+            {
+                currentnode.Next.Prev = currentnode.Prev;
+            }
 
             _count--;
 
