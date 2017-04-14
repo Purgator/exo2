@@ -18,7 +18,7 @@ namespace IntechCode.IntechCollection
         }
     }
 
-    class PhPArray<TKey,TValue> : IEnumerable<KeyValuePair<TKey,TValue>>
+    public class PhPArray<TKey,TValue> : IEnumerable<KeyValuePair<TKey,TValue>>
     {
         MyNode<KeyValuePair<TKey,TValue>> _myChainedList;
 
