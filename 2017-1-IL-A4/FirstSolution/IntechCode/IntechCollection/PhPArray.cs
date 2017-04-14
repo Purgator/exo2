@@ -59,9 +59,7 @@ namespace IntechCode.IntechCollection
 
         public PhPArray ()
         {
-            _myChainedList = new MyNode<KeyValuePair<TKey, TValue>>();
-            
-
+            // c===3
 
         }
 
@@ -153,8 +151,12 @@ namespace IntechCode.IntechCollection
 
         public MyNode<KeyValuePair<TKey, TValue>> AtNode ( int n )
         {
-
-            throw new NotImplementedException();
+            var node = _myChainedList;
+            for(var i = 0; i<n;i++ )
+            {
+                node = node.Next;
+            }
+            return node;
         }
 
         /// <summary>
