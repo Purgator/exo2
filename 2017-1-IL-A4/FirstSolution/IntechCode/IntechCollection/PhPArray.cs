@@ -35,7 +35,7 @@ namespace IntechCode.IntechCollection
                 MyNode<KeyValuePair<TKey,TValue >> n;
                 if(TryGetNode(key, out n))
                 {
-                    throw new NotImplementedException();
+                    ChangeNodeValue( n, value );
                 }
                 else
                 {
@@ -52,15 +52,30 @@ namespace IntechCode.IntechCollection
             }
             set
             {
-                var node = AtNode(index);
-                node.Data = new KeyValuePair<TKey, TValue>( node.Data.Key, value );
+                ChangeNodeValue( AtNode( index ), value );
             }
         }
 
         public PhPArray ()
         {
             // c===3
+            _count = 0;
+        }
 
+        int _count;
+        public int Count
+        {
+            get { return _count; }
+        }
+
+        /// <summary>
+        /// OK
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="value"></param>
+        void ChangeNodeValue(MyNode<KeyValuePair<TKey,TValue>> node, TValue value)
+        {
+            node.Data = new KeyValuePair<TKey, TValue>( node.Data.Key, value );
         }
 
         #region IEnumerableSupport
@@ -92,7 +107,7 @@ namespace IntechCode.IntechCollection
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool TryGetValue<TKey,TValue>(TKey key, out TValue value)
+        public bool TryGetValue(TKey key, out TValue value)
         {
             MyNode < KeyValuePair<TKey, TValue> > node;
             if (TryGetNode(key, out node))
@@ -107,28 +122,58 @@ namespace IntechCode.IntechCollection
             }
 
         }
-
-        bool TryGetNode<TKey,TValue>(TKey key, out MyNode<KeyValuePair<TKey,TValue>> node)
+        
+        /// <summary>
+        /// OK
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        bool TryGetNode(TKey key, out MyNode<KeyValuePair<TKey,TValue>> node)
         {
-            /*
-            foreach(MyNode<KeyValuePair<TKey, TValue>> n in this)
+            var currentNode = _myChainedList;
+            while(currentNode != null)
             {
-                if(n.Key.Equals(key))
+                if(currentNode.Data.Key.Equals(key))
                 {
-                    node = n;
-
+                    node = currentNode;
+                    return true;
                 }
-            }
-            */
 
-            throw new NotImplementedException();
+                currentNode = currentNode.Next;
+            }
+
+            node = null;
+            return false;
         }
 
-        bool TryGetLastNodeWithKeySecurity<TKey,TValue>( TKey key, out MyNode<KeyValuePair<TKey, TValue>> output)
+        /// <summary>
+        /// OK
+        /// </summary>
+        /// <param name="output"></param>
+        /// <param name="CanMoveNext"></param>
+        /// <returns></returns>
+        bool TryGetLastNode( out MyNode<KeyValuePair<TKey, TValue>> output, Func<MyNode<KeyValuePair<TKey,TValue>>,bool> CanMoveNext=null)
         {
+            var node = _myChainedList;
+            if(node == null)
+            {
+                output = null;
+                return true;
+            }
 
+            while(node != null)
+            {
+                if(CanMoveNext != null && !CanMoveNext(node))
+                {
+                    output = null;
+                    return false;
+                }
+                node = node.Next;
+            }
+            output = node;
+            return true;
 
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -139,10 +184,19 @@ namespace IntechCode.IntechCollection
         public void Add(TKey key,TValue value)
         {
             MyNode < KeyValuePair<TKey, TValue> > lastNode;
-            if (TryGetLastNodeWithKeySecurity(key, out lastNode))
+            if (TryGetLastNode(out lastNode, (n) => { return n.Data.Key.Equals(key); } ))
             {
                 MyNode<KeyValuePair<TKey, TValue>> newNode = new MyNode<KeyValuePair<TKey, TValue>>(new KeyValuePair<TKey, TValue>(key,value), lastNode);
-                lastNode.Next = newNode;
+
+                if ( lastNode == null)
+                {
+                    _myChainedList = newNode;
+                }
+                else
+                {
+                    lastNode.Next = newNode;
+                }
+                _count++;
             }
             else
             {
@@ -160,6 +214,11 @@ namespace IntechCode.IntechCollection
             return AtNode( n ).Data;
         }
 
+        /// <summary>
+        ///  OK
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
         MyNode<KeyValuePair<TKey, TValue>> AtNode ( int n )
         {
             var node = _myChainedList;
@@ -200,6 +259,8 @@ namespace IntechCode.IntechCollection
 
             currentnode.Prev.Next = currentnode.Next;
             currentnode.Next.Prev = currentnode.Prev;
+
+            _count--;
 
         }
 
